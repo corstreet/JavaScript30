@@ -61,6 +61,8 @@
 //add listener for keydown
 window.addEventListener("keydown", playSound);
 
+
+
 function playSound(e) {
 
   //store matched audio element
@@ -80,10 +82,21 @@ function playSound(e) {
   const kbdParent = document.querySelector(`div[data-key="${e.keyCode}"]`);
   const kbd = kbdParent.children[0].innerHTML;
   
-  
+  //add playing class to this div
+  kbdParent.classList.add('playing');
   //print following to console
   console.log(`${e.keyCode}, or letter '${kbd}', plays the ${soundDescription} sound!`);
 
+  //create an array of .key's
+  const keys = Array.from(document.querySelectorAll('.key'));
+  //loop through arrays and listen for transitionend
+  keys.forEach(function(key, index, keysArray){
+    key.addEventListener("transitionend", removeTransition)
+  })
+  //remove playing class
+  function removeTransition(e) {
+    kbdParent.classList.remove('playing');
+  }
 
 }
 
